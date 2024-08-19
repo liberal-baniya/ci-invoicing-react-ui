@@ -36,6 +36,8 @@ class SignUpView(APIView):
                     "id": user.id,
                     "is_superuser": user.is_superuser,
                     "is_staff": user.is_staff,
+                    "accessToken":str(access),
+                    "refreshToken":str(refresh),
                     "message": "Signup successful. User authenticated.",
                 },
                 status=status.HTTP_201_CREATED,
