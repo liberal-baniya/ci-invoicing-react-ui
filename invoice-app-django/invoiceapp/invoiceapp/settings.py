@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,10 +53,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_WHITELIST=[
-    "http://localhost:3000",  
-    "http://127.0.0.1:3000"
-]
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
 ROOT_URLCONF = "invoiceapp.urls"
 
@@ -93,7 +90,35 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "invoice_api.User"
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        # 'booking_api.authentication.CookieAuthentication',  # Replace with the actual path
+        "rest_framework_simplejwt.authentication.JWTAuthentication"
+    ],
+}
 
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=15
+    ),  # Set the lifetime of the access token
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        days=1
+    ),  # Set the lifetime of the refresh token
+    "ROTATE_REFRESH_TOKENS": True,  # Whether to rotate refresh tokens
+    # "BLACKLIST_AFTER_ROTATION": True,  # Whether to blacklist the old refresh tokens
+    "ALGORITHM": "HS256",  # JWT signing algorithm
+    "SIGNING_KEY": SECRET_KEY,  # Signing key (must be set to your SECRET_KEY)
+    "VERIFYING_KEY": None,  # Key to verify the signature (optional)
+    "AUDIENCE": None,  # Audience claim (optional)
+    "ISSUER": None,  # Issuer claim (optional)
+    "AUTH_HEADER_TYPES": ("Bearer",),  # Authorization header type
+    "USER_ID_FIELD": "id",  # Field to use for the user ID
+    "USER_ID_CLAIM": "user_id",  # Claim to use for the user ID
+    # 'AUTH_TOKEN_CLASSES': ('access',),              # Token classes to use
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",  # HTTP header to use for the token
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
