@@ -53,7 +53,7 @@
 //   )
 // }
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../NavBar/Navbar";
 
 export default function InvoiceList() {
@@ -99,13 +99,9 @@ export default function InvoiceList() {
               <td>{new Date(i.createdAt).toDateString()}</td>
               <td>{i.totalAmount}</td>
               <td>
-                <NavLink
-                  to={`/invoice/${i.id}`}
-                  state={{ i, items: i.items }}
-                  className="btn btn-warning"
-                >
+                <Link to={`/invoice/${i.id}`} className="btn btn-warning">
                   Items
-                </NavLink>
+                </Link>
               </td>
             </tr>
           ))}
